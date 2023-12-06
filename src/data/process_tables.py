@@ -349,6 +349,31 @@ def process_real_estate_data(from_schema, to_schema):
         ).format(to_schema=sql.Identifier(to_schema))
     )
 
+def process_inspection_notes(from_schema, to_schema):
+    run(
+        sql.SQL(
+            """
+        SELECT
+          AS id_insppool,
+          AS seqnumlog,
+          AS datecreate,
+          AS detail,
+          AS block,
+          AS lot
+        INTO {to_schema}.inspection_notes
+        FROM {from_schema}.inspection_notes
+    """
+        ).format(
+            to_schema=sql.Identifier(to_schema), from_schema=sql.Identifier(from_schema)
+        )
+    )
+    run(
+        sql.SQL(
+            """CREATE INDEX inspection_notes_blocklot_idx
+                ON {to_schema}.inspection_notes (blocklot)"""
+        ).format(to_schema=sql.Identifier(to_schema))
+    )
+
 
 def process_tables():
     create_schema(CLEAN_SCHEMA)
@@ -359,7 +384,8 @@ def process_tables():
     # process_all_vacant_building_notices(RAW_SCHEMA, CLEAN_SCHEMA)
     # process_code_violations_after_2017(RAW_SCHEMA, CLEAN_SCHEMA)
     # process_inspection_notes(RAW_SCHEMA, CLEAN_SCHEMA)
-    process_real_estate_data(RAW_SCHEMA, CLEAN_SCHEMA)
+    # process_real_estate_data(RAW_SCHEMA, CLEAN_SCHEMA)
+    process_inspection_notes(RAW_SCHEMA, CLEAN_SCHEMA)
 
 
 if __name__ == "__main__":
