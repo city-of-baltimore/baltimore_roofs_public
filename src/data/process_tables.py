@@ -70,7 +70,7 @@ def process_tax_parcel_address(from_schema, to_schema):
             WHERE blocklot IN %s
         )
         SELECT
-            wkb_geometry,
+            shape,
             tpa.objectid,
             pin,
             pinrelate,
@@ -170,7 +170,7 @@ def process_tax_parcel_address(from_schema, to_schema):
     run(query, (tuple(cohort_blocklots), tuple(cohort_blocklots)))
     run(
         """CREATE INDEX tpa_wkb_geom_idx ON processed.tax_parcel_address
-        USING gist (wkb_geometry)"""
+        USING gist (shape)"""
     )
     run("CREATE UNIQUE INDEX blocklot_idx ON processed.tax_parcel_address (blocklot)")
 
@@ -354,12 +354,12 @@ def process_inspection_notes(from_schema, to_schema):
         sql.SQL(
             """
         SELECT
-          AS id_insppool,
-          AS seqnumlog,
-          AS datecreate,
-          AS detail,
-          AS block,
-          AS lot
+          "Id_InspPool" AS id_insppool,
+          "SeqNumLog" AS seqnumlog,
+          "DateCreate" AS datecreate,
+          "Detail" AS detail,
+          "Block" AS block,
+          "Lot" AS lot
         INTO {to_schema}.inspection_notes
         FROM {from_schema}.inspection_notes
     """
@@ -377,8 +377,8 @@ def process_inspection_notes(from_schema, to_schema):
 
 def process_tables():
     create_schema(CLEAN_SCHEMA)
-     copy_table_structure_to_schema(RAW_SCHEMA, "data_311", CLEAN_SCHEMA, "data_311")
-     alter_data_311_table_structure(CLEAN_SCHEMA)
+    #copy_table_structure_to_schema(RAW_SCHEMA, "data_311", CLEAN_SCHEMA, "data_311")
+    #alter_data_311_table_structure(CLEAN_SCHEMA)
     process_data_311(RAW_SCHEMA, CLEAN_SCHEMA)
     process_tax_parcel_address(RAW_SCHEMA, CLEAN_SCHEMA)
     process_all_vacant_building_notices(RAW_SCHEMA, CLEAN_SCHEMA)
