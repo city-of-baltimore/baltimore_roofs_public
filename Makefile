@@ -114,6 +114,7 @@ import_tables:
 	-$(PYTHON_INTERPRETER) src/data/import_tables.py $(DATA_PATH)/20220706/Blocks_SampleAddress_2018.xlsx raw reference_addresses_for_2018_coding
 	-$(PYTHON_INTERPRETER) src/data/import_tables.py $(DATA_PATH)/20220707/All_VBNs.csv raw all_vacant_building_notices
 	-$(PYTHON_INTERPRETER) src/data/import_tables.py $(DATA_PATH)/20220707/Findings8.5.19.xls raw roofdata_2019
+	-$(PYTHON_INTERPRETER) src/data/import_tables.py $(DATA_PATH)/20220628/Notice_Detail_202206.csv raw inspection_notes
 
 ## Process raw tables into clean tables
 clean_tables:

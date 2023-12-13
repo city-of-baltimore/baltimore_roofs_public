@@ -17,3 +17,12 @@ SQLAlchemy
 rasterio
 shapely
 tensorboard
+torch
+torchvision
+matplotlib
+openpyxl
+tensorboard
+scikit-learn
+pandas
+ohio
+h5py
